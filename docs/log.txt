@@ -1,0 +1,28 @@
+Date: 2025-08-17
+Contributor: Muskan Kushwah
+Project: NER Models + FastAPI + Docker + Nginx
+
+Work Summary:
+1. Improved LSTM-based NER model training:
+   - Added dropout layers (`dropout`, `recurrent_dropout`) for regularization.
+   - Verified inference pipeline for tagging sentences word-by-word.
+
+2. API Development:
+   - Created `index.py` to handle text input and call multiple NER model endpoints in parallel.
+   - Implemented response aggregation to return structured results to Node.js controller.
+
+3. Containerization & Orchestration:
+   - Dockerized all 3 models (LSTM, BiLSTM, Transformer-based).
+   - Configured `docker-compose.yml` for unified service management.
+   - Integrated Nginx as reverse proxy:
+       * Routed all model API requests through Nginx on port 80.
+       * Ensured proper load balancing and endpoint accessibility.
+
+4. Validation:
+   - Tested inference requests via Nginx → FastAPI → Models.
+   - Verified consistent and parallelized responses for incoming text requests.
+
+Next Steps:
+- Add monitoring (Prometheus/Grafana) for containerized services.
+- Implement batching for high-throughput inference requests.
+- Optimize model serving performance (ONNX/TensorRT if required).
