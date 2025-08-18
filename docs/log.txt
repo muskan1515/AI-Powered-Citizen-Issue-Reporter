@@ -22,6 +22,20 @@ Work Summary:
    - Tested inference requests via Nginx → FastAPI → Models.
    - Verified consistent and parallelized responses for incoming text requests.
 
+
+Date: 2025-08-18
+Contributor: Muskan Kushwah
+1. Backend Feature Expansion:
+   feat(backend): add full authentication, complaints API, and middleware setup
+   - Implemented user authentication with JWT (access/refresh tokens)
+   - Added rate limiting middleware on login, signup, and reset password endpoints
+   - Created controllers: authController, userController, complaintController
+   - Added validators for auth and complaints (express-validator)
+   - Set up routes: /api/auth, /api/complaints, /api/users
+   - Added authMiddleware for JWT verification with accessToken/roles
+   - Integrated global error handling, request logging, and email utility stub
+   - Configured server.js with Express app, MongoDB connection, CORS, JSON parsing
+
 Next Steps:
 - Add monitoring (Prometheus/Grafana) for containerized services.
 - Implement batching for high-throughput inference requests.
