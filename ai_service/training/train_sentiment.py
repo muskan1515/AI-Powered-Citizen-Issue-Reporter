@@ -10,9 +10,9 @@ import re
 
 # --------------------------
 # 0️⃣ Initialize global lists
-epoch_settings = [10.00,12.00]
-final_val_accuracies = [.8245,0.82]
-final_val_losses = [0.5678,0.7]
+epoch_settings = []
+final_val_accuracies = []
+final_val_losses = []
 
 # 1️⃣ Load dataset
 df = pd.read_csv('/content/sample_data/datasets/sentiment_dataset.csv')
@@ -89,25 +89,25 @@ prediction = model.predict(sample_text)
 print("Positive" if prediction[0][0] > 0.5 else "Negative")
 
 # 1️⃣3️⃣ Append history globally
-# final_val_accuracies.extend(history.history['val_accuracy'])
-# final_val_losses.extend(history.history['val_loss'])
-# epoch_settings.extend(range(1, model_epochs_size + 1))
+epoch_settings = list(range(1, len(history.history['val_accuracy']) + 1))
+final_val_accuracies = history.history['val_accuracy']
+final_val_losses = history.history['val_loss']
 
-# # 1️⃣4️⃣ Plot Accuracy
-# plt.plot(epoch_settings, final_val_accuracies, marker='o')
-# plt.xlabel("Epochs")
-# plt.ylabel("Validation Accuracy")
-# plt.title("Validation Accuracy vs Epochs")
-# plt.grid(True)
-# plt.show()
+# 1️⃣4️⃣ Plot Accuracy
+plt.plot(epoch_settings, final_val_accuracies, marker='o')
+plt.xlabel("Epochs")
+plt.ylabel("Validation Accuracy")
+plt.title("Validation Accuracy vs Epochs")
+plt.grid(True)
+plt.show()
 
-# # 1️⃣5️⃣ Plot Loss
-# plt.plot(epoch_settings, final_val_losses, marker='x')
-# plt.xlabel("Epochs")
-# plt.ylabel("Validation Loss")
-# plt.title("Validation Loss vs Epochs")
-# plt.grid(True)
-# plt.show()
+# 1️⃣5️⃣ Plot Loss
+plt.plot(epoch_settings, final_val_losses, marker='x')
+plt.xlabel("Epochs")
+plt.ylabel("Validation Loss")
+plt.title("Validation Loss vs Epochs")
+plt.grid(True)
+plt.show()
 
 # --------------------------
 # 1️⃣6️⃣ Save the trained model for deployment

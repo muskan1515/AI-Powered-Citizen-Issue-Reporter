@@ -27,4 +27,4 @@ def predict_sentiment(text: TextInput):
    
    predicted_sentiement = ("Positive" if prediction[0][0] > 0.5 else "Negative")
 
-   return {"predicted_sentiment": predicted_sentiement}
+   return {"label": predicted_sentiement, "confidence": prediction[0][0]}

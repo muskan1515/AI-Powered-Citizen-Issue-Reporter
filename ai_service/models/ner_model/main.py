@@ -34,6 +34,6 @@ def predict_issue(text: TextInput):
         tokens = t.split()
         tokens = tokens[:100]
         tags = [idx2tag.get(int(idx), "PAD") for idx in pred_idxs[i][:len(tokens)]]
-        output.append(list(zip(tokens, tags)))
+        output.append(list({"token": tokens, "tag": tags}))
     
     return output
