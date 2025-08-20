@@ -3,7 +3,7 @@ const env = require("../config/env");
 
 module.exports.signAccessToken = (payload) => {
   return jwt.sign(payload, env.jwt.accessSecret, {
-    expiresIn: env.jwt.accessExpires,
+    expiresIn: "2m",
   });
 };
 

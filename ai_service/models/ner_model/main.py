@@ -5,7 +5,7 @@ from pydantic import BaseModel
 import pickle
 
 ##load model
-model = tf.keras.models.load_model('ner_model.keras')
+model = tf.keras.models.load_model('ner_best_model.keras')
 
 with open('tag_map.pkl', 'rb') as f:
     tag_map = pickle.load(f)

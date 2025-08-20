@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const env = require("../config/env");
 
 const protect = async (req, res, next) => {
   try {
@@ -12,12 +13,16 @@ const protect = async (req, res, next) => {
       token = req.headers.authorization.split(" ")[1];
     }
 
+    
+
+    console.log({"req": req.cookies.refreshToken, token})
+
     if (!token) {
       return res.status(401).json({ error: "Not authorized, token missing" });
     }
 
     // Verify token
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, env.jwt.accessSecret);
 
     req.user = await User.findById(decoded.id).select("-password");
 

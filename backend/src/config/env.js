@@ -33,7 +33,7 @@ const env = {
   },
 
   ai_client: {
-    base_url: process.env.AI_SERVICE_BASE || "http://localhost:8000"
+    base_url: process.env.AI_SERVICE_BASE || "http://localhost"
   }
 };
 

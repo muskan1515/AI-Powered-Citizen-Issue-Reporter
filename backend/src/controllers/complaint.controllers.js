@@ -6,18 +6,18 @@ const { analyzeWithAI } = require('../utils/aiClient.js');
  */
 const createComplaint = async (req, res) => {
   try {
-    const { text, location } = req.body;
+    const { text, address } = req.body;
 
     // Run AI analysis (sentiment, NER, issue classification, etc.)
     const aiResult = await analyzeWithAI(text);
 
     const complaint = new Complaint({
       text,
-      location,
+      location: address,
       userId: req.user._id,
       status: "open",
-      aiAnalysis: aiResult,
-    });
+      ai: aiResult,
+    }); 
 
     const saved = await complaint.save();
     res.status(201).json(saved);
@@ -54,6 +54,7 @@ const getComplaint = async (req, res) => {
  */
 const updateComplaint = async (req, res) => {
   try {
+    console.log("body:", req.body)
     const doc = await Complaint.findById(req.params.id);
     if (!doc) return res.status(404).json({ error: "Not found" });
 
@@ -77,7 +78,7 @@ const updateComplaint = async (req, res) => {
     const updated = await Complaint.findByIdAndUpdate(doc._id, up, { new: true });
     res.json(updated);
   } catch (err) {
-    console.error("Error updating complaint:", err);
+    console.log("Error updating complaint:", err);
     res.status(500).json({ error: "Server error" });
   }
 };
@@ -111,17 +112,53 @@ const removeComplaint = async (req, res) => {
 const listComplaints = async (req, res) => {
   try {
     let complaints;
+
     if (req.user.role === "admin") {
-      complaints = await Complaint.find().sort({ createdAt: -1 });
+      complaints = await Complaint.aggregate([
+        {
+          $addFields: {
+            urgencyRank: {
+              $switch: {
+                branches: [
+                  { case: { $eq: ["$ai.urgency", "High"] }, then: 1 },
+                  { case: { $eq: ["$ai.urgency", "Medium"] }, then: 2 },
+                  { case: { $eq: ["$ai.urgency", "Low"] }, then: 3 },
+                ],
+                default: 4,
+              },
+            },
+          },
+        },
+        { $sort: { urgencyRank: 1, createdAt: -1 } },
+      ]);
     } else {
-      complaints = await Complaint.find({ userId: req.user._id }).sort({ createdAt: -1 });
+      complaints = await Complaint.aggregate([
+        { $match: { userId: req.user._id } },
+        {
+          $addFields: {
+            urgencyRank: {
+              $switch: {
+                branches: [
+                  { case: { $eq: ["$ai.urgency", "High"] }, then: 1 },
+                  { case: { $eq: ["$ai.urgency", "Medium"] }, then: 2 },
+                  { case: { $eq: ["$ai.urgency", "Low"] }, then: 3 },
+                ],
+                default: 4,
+              },
+            },
+          },
+        },
+        { $sort: { urgencyRank: 1, createdAt: -1 } },
+      ]);
     }
+
     res.json(complaints);
   } catch (err) {
     console.error("Error listing complaints:", err);
     res.status(500).json({ error: "Server error" });
   }
 };
+
 
 module.exports = {
   createComplaint,

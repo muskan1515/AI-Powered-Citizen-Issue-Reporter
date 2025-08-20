@@ -8,7 +8,7 @@ const createComplaintSchema = Joi.object({
     "string.min": "Text required (>=5 chars)",
     "any.required": "Text is required",
   }),
-  location: Joi.object({
+  address: Joi.object({
     lat: Joi.number().min(-90).max(90).required().messages({
       "number.base": "Latitude must be a number",
       "number.min": "Latitude cannot be less than -90",

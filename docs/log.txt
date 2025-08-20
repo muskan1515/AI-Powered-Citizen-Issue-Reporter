@@ -40,3 +40,23 @@ Next Steps:
 - Add monitoring (Prometheus/Grafana) for containerized services.
 - Implement batching for high-throughput inference requests.
 - Optimize model serving performance (ONNX/TensorRT if required).
+
+
+Date: 2025-08-21
+Contributor: Muskan Kushwah
+
+1. Frontend Feature Expansion:
+   - Integrated Redux Toolkit for state management (auth + complaints)
+   - Added async thunks for login, signup, logout, updateProfile
+   - Configured Axios service with JWT token refresh interceptor
+   - Created authentication pages (Login, Register, Logout, Profile)
+   - Built complaint submission form and complaints list dashboard
+   - Implemented protected routes with role-based rendering
+   - Added UI enhancements: loaders, toasts, error boundaries
+   - Persisted user session with localStorage + Redux hydration
+
+Next Steps:
+- Add unit/integration tests with Jest + React Testing Library
+- Implement pagination + filtering in complaint dashboard
+- Optimize bundle size with code splitting and lazy loading
+- Add internationalization (i18n) support for multi-language UI
