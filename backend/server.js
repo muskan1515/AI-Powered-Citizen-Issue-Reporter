@@ -2,8 +2,8 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const morgan = require("morgan")
-const helmet = require("helmet")
+const morgan = require("morgan");
+const helmet = require("helmet");
 
 const authRoutes = require("./src/routes/auth.routes.js");
 const userRoutes = require("./src/routes/user.routes.js");
@@ -16,14 +16,20 @@ dotenv.config();
 
 const app = express();
 
-app.use(morgan('dev'))
-app.use(helmet())
-app.use(cors({ origin: "http://localhost:3000", credentials: true }));
+app.use(morgan("dev"));
+app.use(helmet());
+app.use(
+  cors({
+    origin: "http://localhost:3000",
+    methods: "GET,POST,PUT,DELETE,OPTIONS",
+    allowedHeaders: "Content-Type,Authorization",
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(generalLimiter);
-
 
 app.get("/", (req, res) => {
   res.send("Server is running");
@@ -37,7 +43,6 @@ app.use("/api/complaints", complaintsRoutes);
 // Error Handling
 app.use(notFound);
 app.use(errorHandler);
-
 
 // Start server
 const PORT = process.env.PORT || 5000;
