@@ -1,6 +1,6 @@
 import tensorflow as tf
 import numpy as np
-import fastapi as FastAPI
+from fastapi import FastAPI
 from pydantic import BaseModel
 import pickle
 
@@ -19,10 +19,10 @@ class TextInput(BaseModel):
     text: str
 
 @app.post("/predict")
-def predict_issue(text: TextInput):
+def predict_issue(input: TextInput):
     
     ## convert to tf.dataset
-    sample_text = tf.data.Dataset.from_tensor_slices([text]).batch(1)
+    sample_text = tf.data.Dataset.from_tensor_slices([input.text]).batch(1)
 
     prediction = model.predict(sample_text)
 
@@ -31,6 +31,6 @@ def predict_issue(text: TextInput):
 
     pred_idx = int(np.argmax(probs))
     pred_label = label_encoder.inverse_transform([pred_idx])[0]
-    pred_confidence = float(percents[pred_idx])
+    pred_confidence = round(float(percents[pred_idx]), 2)
 
     return {"label": pred_label, "confidence": pred_confidence}
