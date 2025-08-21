@@ -5,26 +5,26 @@ services:
     build: ./models/ner_model
     container_name: ner_service
     ports:
-      "8001:8000"
+      - "8001:8000"
   
   issue_classifier_service:
-    build: ./models/issue_classifier_model
+    build: ./models/issue-classifier-model
     container_name: issue_classifier_service
     ports:
-      "8002:8000"
+      - "8002:8000"
 
   sentiment_analysis_service:
     build: ./models/sentiment_analysis_model
     container_name: sentiment_analysis_service
     ports:
-      "8003:8000"
+      - "8003:8000"
   
   nginx_service:
     build: ./nginx
     container_name: nginx_service
     ports:
-      "80:80"
+      - "80:80"
     depends_on:
-      ner_service
-      issue_classifier_service
-      sentiment_analysis_service
+      - ner_service
+      - issue_classifier_service
+      - sentiment_analysis_service
