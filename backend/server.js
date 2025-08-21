@@ -11,6 +11,7 @@ const complaintsRoutes = require("./src/routes/complaint.routes.js");
 const { connectDB } = require("./src/config/db.js");
 const { generalLimiter } = require("./src/middleware/ratelimiter.js");
 const { notFound, errorHandler } = require("./src/middleware/errorHandler.js");
+const env = require("./src/config/env.js");
 
 dotenv.config();
 
@@ -20,7 +21,7 @@ app.use(morgan("dev"));
 app.use(helmet());
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: env.clientOrigin,
     methods: "GET,POST,PUT,DELETE,OPTIONS",
     allowedHeaders: "Content-Type,Authorization",
     credentials: true,
