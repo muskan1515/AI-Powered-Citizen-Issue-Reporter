@@ -267,4 +267,5 @@ npm run dev
 - **Leaflet.js:** Integrated interactive maps for accurate location selection in complaints.  
 - **Render:** Provided seamless deployment of all three services (Frontend, Backend, AI Service).  
 - **Inspiration & Learning:** The project demonstrates full-stack and AI integration learned and implemented independently.  
-- **Open-Source Libraries:** Thanks to the React, Node.js, FastAPI, and Python communities for their frameworks and support.  
+- **Open-Source Libraries:** Thanks to the React, Node.js, FastAPI, and Python communities for their frameworks and support.
+- **Blog** [Read my blog](https://medium.com/@muskankushwah85/building-and-deploying-ai-models-for-complaint-analysis-challenges-solutions-and-learnings-e2a1dbe738b8)
