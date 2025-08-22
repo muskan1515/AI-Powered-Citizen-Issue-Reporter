@@ -7,6 +7,8 @@ import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import ProfileDrawer from "@/components/profile/ProfileDrawer";
 import LoginSignupModal from "@/components/auth/LoginSignupModal";
+import GlobalLoader from "@/components/common/GlobalLoader";
+import GlobalMessage from "@/components/common/GlobalMessage";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,6 +36,8 @@ export default function RootLayout({
           <Footer />
           <ProfileDrawer/>
           <LoginSignupModal/>
+          <GlobalLoader/>
+          <GlobalMessage/>
         </StoreProvider>
       </body>
     </html>

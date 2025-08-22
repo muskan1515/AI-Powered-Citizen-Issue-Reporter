@@ -6,7 +6,6 @@ import { RootState } from "@/store";
 import {
   closeProfileDrawer,
   getUserProfile,
-  logout,
   logoutUser,
   updateUserProfile,
 } from "@/store/slices/authSlice";
@@ -69,9 +68,39 @@ export default function ProfileDrawer() {
     if (error) dispatch(showMessage({ type: "error", text: error }));
   }, [error, dispatch]);
 
+  type AddressKeys = keyof UpdateProfileRequest["address"];
+  type TopLevelKeys = Exclude<keyof UpdateProfileRequest, "address">;
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => setFormData({ ...formData, [e.target.name]: e.target.value });
+  ) => {
+    const { name, value } = e.target;
+
+    setFormData((prev: UpdateProfileRequest): UpdateProfileRequest => {
+      if (
+        ["line1", "line2", "city", "state", "postalCode", "country"].includes(
+          name
+        )
+      ) {
+        // Field is part of address
+        const key = name as AddressKeys;
+        return {
+          ...prev,
+          address: {
+            ...prev.address,
+            [key]: value,
+          },
+        };
+      } else {
+        // Top-level field
+        const key = name as TopLevelKeys;
+        return {
+          ...prev,
+          [key]: value as any, // can cast safely here
+        };
+      }
+    });
+  };
 
   const handleSave = () => {
     dispatch(updateUserProfile(formData)).then((res: any) => {
@@ -102,7 +131,7 @@ export default function ProfileDrawer() {
       ) : isEditing ? (
         <ProfileEditForm
           formData={formData}
-          onChange={handleChange}
+          setFormDataHandle={handleChange}
           onSave={handleSave}
           onCancel={() => setIsEditing(false)}
         />

@@ -17,7 +17,7 @@ export const getApiInstance = (routeKey: RouteKey): AxiosInstance => {
     headers: {
       "Content-Type": "application/json",
     },
-    timeout: 10000,
+    timeout: 300000,
     withCredentials: true,
   });
 

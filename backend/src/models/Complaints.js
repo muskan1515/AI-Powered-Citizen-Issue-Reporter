@@ -16,7 +16,7 @@ const aiSchema = new mongoose.Schema(
         tag: String,
       },
     ],
-    urgency: { type: String, enum: ["High", "Medium", "Low"], default: "low" },
+    urgency: { type: String, enum: ["high", "medium", "low"], default: "low" },
   },
   { _id: false }
 );

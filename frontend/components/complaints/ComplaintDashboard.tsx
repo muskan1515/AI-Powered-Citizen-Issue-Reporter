@@ -46,32 +46,49 @@ export default function ComplaintsDashboard() {
       dispatch(showLoader());
       await dispatch(removeComplaint(id)).unwrap();
       dispatch(hideLoader());
-      dispatch(showMessage({ type: "success", text: "Complaint deleted successfully" }));
+      dispatch(
+        showMessage({ type: "success", text: "Complaint deleted successfully" })
+      );
     } catch (err: any) {
       dispatch(hideLoader());
-      dispatch(showMessage({ type: "error", text: err?.message || "Failed to delete complaint" }));
+      dispatch(
+        showMessage({
+          type: "error",
+          text: err?.message || "Failed to delete complaint",
+        })
+      );
     }
   };
 
-  const handleStatusChange = async (id: string, status: Complaint["status"]) => {
+  const handleStatusChange = async (
+    id: string,
+    status: Complaint["status"]
+  ) => {
     try {
       dispatch(showLoader());
       await dispatch(updateComplaint({ id, status })).unwrap();
       dispatch(hideLoader());
-      dispatch(showMessage({ type: "success", text: "Status updated successfully" }));
+      dispatch(
+        showMessage({ type: "success", text: "Status updated successfully" })
+      );
     } catch (err: any) {
       dispatch(hideLoader());
-      dispatch(showMessage({ type: "error", text: err?.message || "Failed to update status" }));
+      dispatch(
+        showMessage({
+          type: "error",
+          text: err?.message || "Failed to update status",
+        })
+      );
     }
   };
 
   const urgencyColor = (urgency?: string) => {
     switch (urgency) {
-      case "High":
+      case "high":
         return "bg-red-500 text-white";
-      case "Medium":
+      case "medium":
         return "bg-yellow-400 text-black";
-      case "Low":
+      case "low":
         return "bg-green-500 text-white";
       default:
         return "bg-gray-300 text-black";
@@ -119,7 +136,8 @@ export default function ComplaintsDashboard() {
             <div>
               <h2 className="font-semibold text-lg mb-2">{c.text}</h2>
               <p className="text-sm text-gray-500 mb-1">
-                Location: {c.location.lat.toFixed(4)}, {c.location.lng.toFixed(4)}
+                Location: {c.location.lat.toFixed(4)},{" "}
+                {c.location.lng.toFixed(4)}
               </p>
               <p className="text-sm mb-1">
                 Sentiment:{" "}
@@ -130,15 +148,21 @@ export default function ComplaintsDashboard() {
                       : "text-red-600"
                   }
                 >
-                  {c.ai?.sentiment?.label} ({c.ai?.sentiment?.confidence?.toFixed(2)})
+                  {c.ai?.sentiment?.label} (
+                  {c.ai?.sentiment?.confidence?.toFixed(2)})
                 </span>
               </p>
               <p className="text-sm mb-1">
-                Issue: {c.ai?.issue?.label} ({c.ai?.issue?.confidence?.toFixed(2)})
+                Issue: {c.ai?.issue?.label} (
+                {c.ai?.issue?.confidence?.toFixed(2)})
               </p>
               <p className="text-sm mb-1">
                 Urgency:{" "}
-                <span className={`px-2 py-1 rounded ${urgencyColor(c.ai?.urgency)}`}>
+                <span
+                  className={`px-2 py-1 rounded ${urgencyColor(
+                    String(c.ai?.urgency).toLowerCase()
+                  )}`}
+                >
                   {c.ai?.urgency}
                 </span>
               </p>
@@ -162,7 +186,10 @@ export default function ComplaintsDashboard() {
                   <select
                     value={c.status}
                     onChange={(e) =>
-                      handleStatusChange(c._id, e.target.value as Complaint["status"])
+                      handleStatusChange(
+                        c._id,
+                        e.target.value as Complaint["status"]
+                      )
                     }
                     className="border rounded px-2 py-1 text-sm"
                   >
@@ -202,18 +229,23 @@ export default function ComplaintsDashboard() {
         <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
         <div className="fixed inset-0 flex items-center justify-center p-4">
           <Dialog.Panel className="bg-white rounded shadow-lg max-w-lg w-full p-6 space-y-4">
-            <Dialog.Title className="text-xl font-bold">Complaint Details</Dialog.Title>
+            <Dialog.Title className="text-xl font-bold">
+              Complaint Details
+            </Dialog.Title>
             {viewComplaint && (
               <>
                 <p>
-                  <span className="font-semibold">Text:</span> {viewComplaint.text}
+                  <span className="font-semibold">Text:</span>{" "}
+                  {viewComplaint.text}
                 </p>
                 <p>
                   <span className="font-semibold">Location:</span>{" "}
-                  {viewComplaint.location.lat.toFixed(4)}, {viewComplaint.location.lng.toFixed(4)}
+                  {viewComplaint.location.lat.toFixed(4)},{" "}
+                  {viewComplaint.location.lng.toFixed(4)}
                 </p>
                 <p>
-                  <span className="font-semibold">Status:</span> {viewComplaint.status}
+                  <span className="font-semibold">Status:</span>{" "}
+                  {viewComplaint.status}
                 </p>
                 <p>
                   <span className="font-semibold">Created At:</span>{" "}
@@ -233,7 +265,9 @@ export default function ComplaintsDashboard() {
                   <p>
                     Urgency:{" "}
                     <span
-                      className={`px-2 py-1 rounded ${urgencyColor(viewComplaint.ai?.urgency)}`}
+                      className={`px-2 py-1 rounded ${urgencyColor(
+                        viewComplaint.ai?.urgency
+                      )}`}
                     >
                       {viewComplaint.ai?.urgency}
                     </span>
@@ -243,7 +277,8 @@ export default function ComplaintsDashboard() {
                     <ul className="list-disc ml-5">
                       {viewComplaint.ai?.ner?.map((n, idx) => (
                         <li key={idx}>
-                          <span className="font-semibold">{n.token}:</span> {n.tag}
+                          <span className="font-semibold">{n.token}:</span>{" "}
+                          {n.tag}
                         </li>
                       ))}
                     </ul>

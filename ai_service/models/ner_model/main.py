@@ -1,9 +1,9 @@
-import tensorflow as tf
+import keras
 import numpy as np
 import pickle
 
 # Load model
-model = tf.keras.models.load_model('ner_best_model.keras')
+model = keras.models.load_model('ner_best_model.keras')
 
 # Load tag mapping
 with open('tag_map.pkl', 'rb') as f:

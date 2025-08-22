@@ -1,5 +1,3 @@
-
-// Middleware wrapper
 const joiSchemaValidatorWrapper = (schema) => (req, res, next) => {
   const { error } = schema.validate(req.body);
   if (error) {
@@ -9,5 +7,5 @@ const joiSchemaValidatorWrapper = (schema) => (req, res, next) => {
 };
 
 module.exports = {
-    joiSchemaValidatorWrapper
-}
+  joiSchemaValidatorWrapper,
+};

@@ -5,7 +5,7 @@ import { RootState } from "@/store";
 
 export default function GlobalLoader() {
   const loading = useSelector((state: RootState) => state.ui.loading);
-
+  
   if (!loading) return null;
 
   return (
