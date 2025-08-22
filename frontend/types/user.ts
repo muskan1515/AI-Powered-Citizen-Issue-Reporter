@@ -14,12 +14,12 @@ export interface signupUserProps {
 export interface UpdateProfileRequest {
   name?: string;
   address?: {
-    line1: string;
-    line2: string;
-    city: string;
-    state: string;
-    country: string;
-    postalCode: string;
+    line1?: string;
+    line2?: string;
+    city?: string;
+    state?: string;
+    country?: string;
+    postalCode?: string;
   };
   gender?: "male" | "female" | "other";
   birthDate?: string;
